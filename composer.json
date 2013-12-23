@@ -1,5 +1,5 @@
 {
-    "name": "wneuteboom/simplecsv",
+    "name": "wneuteboom/simple-csv",
     "type": "library",
     "description": "Simple CSV manipulation for PHP 5.3+",
     "keywords": ["csv", "read", "write"],
