@@ -31,6 +31,10 @@ class Reader extends GlobalCSV {
         }
     }
 
+    private function generate_indexes($row) {
+    	
+    }
+
     public function getAll()
     {
         $data = array();
