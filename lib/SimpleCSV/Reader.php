@@ -2,49 +2,53 @@
 
 class Reader extends GlobalCSV {
 
-	private $headersInFirstRow = true;
     private $headers;
-    private $line;
-    private $init;
+	private $headers_in_file = true;
+    private $line = 0;
+    private $init = false;
 
-    public function __construct($path, $mode = 'r+', $headersInFirstRow = true)
+    public function __construct($path, $mode = 'r+', $headers_in_file = true)
     {
         parent::__construct($path, $mode);
-        $this->headersInFirstRow = $headersInFirstRow;
-        $this->line = 0;
+
+        $this->headers_in_file = $headers_in_file;
     }
 
-    public function getHeaders()
+    public function get_headers()
     {
         $this->init();
         return $this->headers;
     }
     
-    public function getRow()
+    public function get_row()
     {
         $this->init();
         if (($row = fgetcsv($this->handle, 1000, $this->delimiter, $this->enclosure)) !== false) {
             $this->line++;
-            return $this->headers ? array_combine($this->headers, $row) : $row;
+            return $this->headers ? $this->generate_indexes($row) : $row;
         } else {
             return false;
         }
     }
 
     private function generate_indexes($row) {
-    	
+    	$new_row = array();
+    	foreach ($this->headers as $index => $value) {
+    		$new_row[$value] = $row[$index];
+    	}
+    	return $new_row;
     }
 
-    public function getAll()
+    public function get_all()
     {
         $data = array();
-        while ($row = $this->getRow()) {
+        while ($row = $this->get_row()) {
             $data[] = $row;
         }
         return $data;
     }
 
-    public function getLineNumber()
+    public function get_line_number()
     {
         return $this->line;
     }
@@ -55,7 +59,7 @@ class Reader extends GlobalCSV {
             return;
         }
         $this->init = true;
-        $this->headers = $this->headersInFirstRow === true ? $this->getRow() : false;
+        $this->headers = $this->headers_in_file === true ? $this->get_row() : false;
     }
 
 }

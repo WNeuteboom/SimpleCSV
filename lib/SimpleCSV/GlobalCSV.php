@@ -22,12 +22,12 @@ class GlobalCSV
         }
     }
 
-    public function setDelimiter($delimiter)
+    public function set_delimiter($delimiter)
     {
         $this->delimiter = $delimiter;
     }
 
-    public function setEnclosure($enclosure)
+    public function set_enclosure($enclosure)
     {
         $this->enclosure = $enclosure;
     }
