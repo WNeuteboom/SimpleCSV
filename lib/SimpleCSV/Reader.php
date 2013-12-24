@@ -2,15 +2,18 @@
 
 class Reader extends GlobalCSV {
 
-    private $headers           = array();
-	private $headers_in_file   = true;
-    private $line              = 0;
-    private $init              = false;
+    private $headers               = array();
+	private $headers_in_file       = true;
+    private $user_headers_as_index = false;
+    private $line                  = 0;
+    private $init                  = false;
 
-    public function __construct($path, $mode = 'r+', $headers_in_file = true)
+    public function __construct($path, $mode = 'r+', $headers_in_file = true, $use_headers_as_index = false)
     {
         parent::__construct($path, $mode);
+        
         $this->headers_in_file = $headers_in_file;
+        $this->use_headers_as_index = $use_headers_as_index;
     }
 
     public function headers()
@@ -24,7 +27,7 @@ class Reader extends GlobalCSV {
         $this->init();
         if (($row = fgetcsv($this->handle, 1000, $this->delimiter, $this->enclosure)) !== false) {
             $this->line++;
-            return $this->headers ? $this->convert_indexes($row) : $row;
+            return ($this->headers && $this->use_headers_as_index) ? $this->convert_indexes($row) : $row;
         } 
         else {
             return false;
