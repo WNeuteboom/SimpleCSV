@@ -24,11 +24,15 @@ class GlobalCSV
 
     public function delimiter($delimiter)
     {
-        $this->delimiter = $delimiter;
+        if(!empty($delimiter)) {
+            $this->delimiter = $delimiter;
+        }
     }
 
     public function enclosure($enclosure)
     {
-        $this->enclosure = $enclosure;
+        if(!empty($enclosure)) {
+            $this->enclosure = $enclosure;
+        }
     }
 }
