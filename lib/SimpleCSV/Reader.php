@@ -25,7 +25,7 @@ class Reader extends GlobalCSV {
     public function row()
     {
         $this->init();
-        if (($row = fgetcsv($this->handle, 1000, $this->delimiter, $this->enclosure)) !== false) {
+        if (($row = fgetcsv($this->handle, 0, $this->delimiter, $this->enclosure)) !== false) {
             $this->line++;
             return ($this->headers && $this->use_headers_as_index) ? $this->convert_indexes($row) : $row;
         } 
