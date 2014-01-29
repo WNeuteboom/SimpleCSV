@@ -3,8 +3,16 @@
 class GlobalCSV
 {
     protected $handle;
-    protected $delimiter = ',';
-    protected $enclosure = '"';
+    protected $delimiter    = 'comma';
+    protected $enclosure    = '"';
+    
+    protected $delimiters   = array(
+        'comma'             => ',',
+        'semicolon'         => ';',
+        'tab'               => "\t",
+        'pipe'              => '|',
+        'colon'             => ':'
+    );
 
     public function __construct($path, $mode = 'r+')
     {
