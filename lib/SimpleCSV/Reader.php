@@ -3,7 +3,7 @@
 class Reader extends GlobalCSV {
 
     private $headers               = array();
-	private $headers_in_file       = true;
+    private $headers_in_file       = true;
     private $user_headers_as_index = false;
     private $line                  = 0;
     private $init                  = false;
@@ -25,8 +25,9 @@ class Reader extends GlobalCSV {
     public function row()
     {
         $this->init();
-        if (($row = fgetcsv($this->handle, 0, $this->delimiter, $this->enclosure)) !== false) {
+        if (($row = fgetcsv($this->handle, 0, $this->delimiters[$this->delimiter], (string)$this->enclosure)) !== false) {
             $this->line++;
+
             return ($this->headers && $this->use_headers_as_index) ? $this->convert_indexes($row) : $row;
         } 
         else {
