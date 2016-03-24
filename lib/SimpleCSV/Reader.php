@@ -32,7 +32,7 @@ class Reader extends GlobalCSV {
         {
             $this->line++;
 
-            return ($this->headers && $this->use_headers_as_index) ? $this->convert_indexes($row) : $row;
+            return ($this->headers && $this->headers_as_index) ? $this->convert_indexes($row) : $row;
         } 
         else
         {
