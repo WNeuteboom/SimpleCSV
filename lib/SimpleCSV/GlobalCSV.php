@@ -2,10 +2,13 @@
 
 class GlobalCSV
 {
+    protected $file;
+    protected $mode;
     protected $handle;
+    
     protected $delimiter    = 'comma';
     protected $enclosure    = '"';
-    
+
     protected $delimiters   = array(
         'comma'             => ',',
         'semicolon'         => ';',
@@ -14,33 +17,48 @@ class GlobalCSV
         'colon'             => ':'
     );
 
-    public function __construct($path, $mode = 'r+')
+    public function __construct($file, $mode = 'r+')
     {
-        if (!file_exists($path)) {
-            touch($path);
-        }
-        
-        $this->handle = fopen($path, $mode);
+        $this->file = $file;
+        $this->mode = $mode;
     }
 
     public function __destruct()
     {
-        if (is_resource($this->handle)) {
+        $this->close();
+    }
+
+    public function open()
+    {
+        if (!is_resource($this->handle))
+        {
+            $this->handle = fopen($this->file, $this->mode);
+        }
+
+        return $this->handle;
+    }
+
+    public function close()
+    {
+        if (is_resource($this->handle))
+        {
             fclose($this->handle);
         }
     }
 
     public function delimiter($delimiter)
     {
-        if(!empty($delimiter)) {
-            $this->delimiter = $delimiter;
+        if (!empty($delimiter))
+        {
+            $this->delimiter = strtolower($delimiter);
         }
     }
 
     public function enclosure($enclosure)
     {
-        if(!empty($enclosure)) {
-            $this->enclosure = $enclosure;
+        if (!empty($enclosure))
+        {
+            $this->enclosure = strtolower($enclosure);
         }
     }
 }
