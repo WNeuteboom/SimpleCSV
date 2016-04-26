@@ -19,8 +19,17 @@ class GlobalCSV
 
     public function __construct($file, $mode = 'r+')
     {
-        $this->file = $file;
         $this->mode = $mode;
+
+        if(is_resource($file))
+        {
+            $this->handle = $file;
+            rewind($this->handle);
+        }
+        else
+        {
+            $this->file = $file;
+        }
     }
 
     public function __destruct()
