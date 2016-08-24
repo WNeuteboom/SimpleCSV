@@ -82,7 +82,15 @@ class Reader extends GlobalCSV {
         $this->open();
 
         // Fetch the headers
-        $this->headers = $this->headers_in_file === true ? $this->row() : false;
+        if($this->headers_in_file === true)
+        {
+            $this->headers = $this->row();
+        } 
+        else
+        {
+            $this->headers = array_keys($this->row());
+            rewind($this->handle);
+        }
     }
 
 }
