@@ -82,13 +82,26 @@ class Reader extends GlobalCSV {
         $this->open();
 
         // Fetch the headers
-        if($this->headers_in_file === true)
+        if ($this->headers_in_file === true)
         {
             $this->headers = $this->row();
         } 
-        else
-        {
-            $this->headers = array_keys($this->row());
+        else {
+
+            $headers = array();
+
+            // Check the first 20 rows and take the largest, just in case
+            for ($i = 0; $i < 20; $i++) {
+
+                $new_headers = array_keys($this->row());
+
+                if (count($headers) < count($new_headers)) {
+                    $headers = $new_headers;
+                }
+            }
+
+            $this->headers = $headers;
+
             rewind($this->handle);
         }
     }
